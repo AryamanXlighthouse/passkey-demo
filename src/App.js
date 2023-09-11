@@ -10,17 +10,14 @@ const getAuthMessage = async (address) => {
         },
       })
       .then((res) => {
-        console.log("API Response:", res.data);
         return res.data[0].message;
       });
-      
+
     return { message: data, error: null };
   } catch (err) {
     return { message: null, error: err?.response?.data || err.message };
   }
 };
-
-
 
 function bufferToBase64url(buffer) {
   const byteView = new Uint8Array(buffer);
@@ -107,17 +104,12 @@ function App() {
   };
 
   const signMessage = async (message) => {
-    console.log("message:", message);
-    console.log("Account:", account);
-console.log("Message to sign:", message);
-
     try {
       // Request signature from user's wallet
       const signature = await window.ethereum.request({
         method: "personal_sign",
         params: [account, message],
       });
-      console.log("Signature:", signature);
       return signature;
     } catch (error) {
       console.error("Error signing the message:", error);
@@ -126,10 +118,6 @@ console.log("Message to sign:", message);
   };
 
   const username = account.toLowerCase();
-  console.log("=============",username)
-
-  console.log(keys, token);
-
   const login = async () => {
     try {
       const startResponse = await axios.post(
@@ -138,11 +126,7 @@ console.log("Message to sign:", message);
           address: username,
         }
       );
-      console.log("----------",startResponse);
       const publicKey = startResponse.data;
-
-      console.log(publicKey);
-
       const [transformedPublicKey, credentialID] =
         transformPublicKey(publicKey);
       const credential = await navigator.credentials
@@ -199,18 +183,14 @@ console.log("Message to sign:", message);
   const register = async () => {
     try {
       const { message, error } = await getAuthMessage(account.toLowerCase());
-      console.log("Fetched message:", message);
-      console.log("Error fetching message:", error);      
       // const data = await generate();
       const signedMessage = await signMessage(message);
-      console.log("signed", signedMessage)
       const response = await axios.post(
         "https://encryption.lighthouse.storage/passkey/register/start",
         {
           address: account.toLowerCase(),
         }
       );
-      console.log("_+_+_+_", response)
       console.log(response.data?.challenge?.data);
       const publicKey = {
         ...response.data,
@@ -220,7 +200,6 @@ console.log("Message to sign:", message);
           id: new Uint8Array([...response.data?.user?.id]),
         },
       };
-      console.log("public key",publicKey);
       const data = await navigator.credentials
         .create({ publicKey })
         .then((credential) => {
@@ -244,7 +223,6 @@ console.log("Message to sign:", message);
           };
 
           // const serialized = JSON.stringify(serializeable);
-          
 
           return serializeable;
         })
@@ -256,7 +234,6 @@ console.log("Message to sign:", message);
       // // pk is a PublicKeyCredential that is the result of a create() or get() Promise
       // const clientDataStr = arrayBufferToStr(data.clientDataJSON);
       // const clientDataObj = JSON.parse(clientDataStr);
-      console.log(data);
       const finishResponse = await axios.post(
         "https://encryption.lighthouse.storage/passkey/register/finish",
         {
@@ -292,7 +269,6 @@ console.log("Message to sign:", message);
         }
       );
       const publicKey = startResponse.data;
-      console.log(publicKey);
       const { message } = await getAuthMessage(account.toLowerCase());
       // const data = await generate();
       const signedMessage = await signMessage(message);
@@ -309,7 +285,6 @@ console.log("Message to sign:", message);
           },
         }
       );
-      console.log(response);
     } catch (error) {
       alert(error.message);
     }
