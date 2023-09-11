@@ -7,6 +7,46 @@
   pointer-events: none;
 }
 
+.App-link {
+  background-color: #0e1010;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 15px;  /* Add right margin */
+
+}
+.App-link:not(:last-child) {
+  margin-right: 15px;  /* Add right margin */
+}
+
+.App-link:hover {
+  background-color: #1b2f38;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.App-link:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+textarea {
+  font-size: 1.2rem;          /* Increase font size */
+  width: 90vw;                /* Adjust width */
+  height: 100px;              /* Adjust height */
+  padding: 10px;              /* Add padding */
+  border: 1px solid #ccc;     /* Add a border */
+  border-radius: 4px;         /* Add rounded corners */
+  resize: vertical;           /* Allow vertical resizing only */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
